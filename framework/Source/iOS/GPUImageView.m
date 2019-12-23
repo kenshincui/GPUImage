@@ -22,6 +22,8 @@
     GLfloat backgroundColorRed, backgroundColorGreen, backgroundColorBlue, backgroundColorAlpha;
 
     CGSize boundsSizeAtFrameBufferEpoch;
+    
+    CGRect boundRect;
 }
 
 @property (assign, nonatomic) NSUInteger aspectRatio;
@@ -143,6 +145,8 @@
     } else if (!CGSizeEqualToSize(self.bounds.size, CGSizeZero)) {
         [self recalculateViewGeometry];
     }
+    
+    boundRect = self.bounds;
 }
 
 - (void)dealloc
@@ -235,12 +239,12 @@
     runSynchronouslyOnVideoProcessingQueue(^{
         CGFloat heightScaling, widthScaling;
         
-        CGSize currentViewSize = self.bounds.size;
+        CGSize currentViewSize = boundRect.size;
         
         //    CGFloat imageAspectRatio = inputImageSize.width / inputImageSize.height;
         //    CGFloat viewAspectRatio = currentViewSize.width / currentViewSize.height;
         
-        CGRect insetRect = AVMakeRectWithAspectRatioInsideRect(inputImageSize, self.bounds);
+        CGRect insetRect = AVMakeRectWithAspectRatioInsideRect(inputImageSize, boundRect);
         
         switch(_fillMode)
         {
