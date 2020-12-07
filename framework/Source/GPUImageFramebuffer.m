@@ -131,6 +131,12 @@ void dataProviderUnlockCallback (void *info, const void *data, size_t size);
 - (void)generateFramebuffer;
 {
     runSynchronouslyOnVideoProcessingQueue(^{
+        
+        if (_size.width == 0.0 || _size.height == 0) {
+            NSLog(@"GPUImageFrameBuffer generate framebuffer failed.");
+            return;
+        }
+        
         [GPUImageContext useImageProcessingContext];
     
         glGenFramebuffers(1, &framebuffer);
